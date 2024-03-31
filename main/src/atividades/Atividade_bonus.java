@@ -1,21 +1,19 @@
 package atividades;
 
-import java.util.Arrays;
 
 public class Atividade_bonus {
     public static void main(String[] args){
-        int[][] matriz = new int[3][3];
+       Jogador jogador_1 = new Jogador();
+       Jogador jogador_2 = new Jogador();
+       jogador_1.setNome("Nogueira");
+       jogador_2.setNome("Rafael");
+       Jogador[] jogadores = {jogador_1, jogador_2};
 
-        for(int i = 0; i < matriz.length; i++){
-            for(int j = 0; j < matriz[i].length; j++){
-                matriz[i][j] = i + 1;
-            }
-        }
-        for(int i = 0; i < matriz.length; i++){
-            for ( int j = 0; j < matriz[i].length; j++){
-                System.out.println(matriz[i][j]);
-            }
-        }
+       JogodaVelha jogo = new JogodaVelha();
+       jogo.setJogadores(jogadores);
+       jogo.showJogadores();
+       jogo.showGrid();
+
 
     }
 }
