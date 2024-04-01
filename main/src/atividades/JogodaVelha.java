@@ -4,7 +4,6 @@ import java.sql.SQLOutput;
 
 public class JogodaVelha {
     private Jogador[] jogadores = new Jogador[2];
-    private int rounds;
     private int[] fileiras = {1, 2, 3};
     private String[][] grid = new String[3][3];
 
@@ -80,11 +79,7 @@ public class JogodaVelha {
             if ((i < 0 || i > 2) || (j < 0 || j > 2)) {
                 throw new Exception("Número inválido para a posição");
             }
-            if (jogador.getType().equals("x")) {
-                this.grid[i][j] = "X";
-            } else {
-                this.grid[i][j] = "O";
-            }
+           this.grid[i][j] = jogador.getType().toUpperCase();
 
         } catch (Exception erro) {
             erro.printStackTrace();
@@ -107,16 +102,18 @@ public class JogodaVelha {
         System.out.printf("\n\n");
     }
 
-    public boolean iterateGrid() {
+    public boolean iterateGrid(int playerTurn) {
+        String itemToSearch;
+        if(playerTurn ==1){
+            itemToSearch = this.jogadores[0].getType().toUpperCase();
+        }else{
+            itemToSearch = this.jogadores[1].getType().toUpperCase();
+        }
         for (int i = 0; i < this.grid.length; i++) {
             for (int j = 0; j < this.grid[i].length; j++) {
                 if (j == 0) {
-                    if (this.grid[i][j].equals("X")) {
-                        if (this.grid[i][j + 1].equals("X") && this.grid[i][j + 2].equals("X")) {
-                            return true;
-                        }
-                    } else if (this.grid[i][j].equals("O")) {
-                        if (this.grid[i][j + 1].equals("O") && this.grid[i][j + 2].equals("O")) {
+                    if (this.grid[i][j].equals(itemToSearch)) {
+                        if (this.grid[i][j + 1].equals(itemToSearch) && this.grid[i][j + 2].equals(itemToSearch)) {
                             return true;
                         }
                     }
@@ -126,25 +123,39 @@ public class JogodaVelha {
         for (int i = 0; i < this.grid.length; i++) {
             for (int j = 0; j < this.grid[i].length; j++) {
                 if (j == 0) {
-                    if (this.grid[j][i].equals("X")) {
-                        if (this.grid[j + 1][i].equals("X") && this.grid[j + 2][i].equals("X")) {
+                    if (this.grid[j][i].equals(itemToSearch)) {
+                        if (this.grid[j + 1][i].equals(itemToSearch) && this.grid[j + 2][i].equals(itemToSearch)) {
                             return true;
                         }
 
-                    } else if (this.grid[j][i].equals("O")) {
-                        if (this.grid[j + 1][i].equals("O") && this.grid[j + 2][i].equals("O")) {
-                            return true;
-                        }
                     }
-
                 }
             }
         }
+        int diagonalPoints = 0;
         for(int i = 0; i < this.grid.length; i++){
-            for (int j = 0; j < this.grid[i].length; j++) {
-
+            if(this.grid[i][i].equals(itemToSearch)){
+                diagonalPoints++;
+                System.out.println(diagonalPoints);
             }
         }
+        if (diagonalPoints ==3){
+            return true;
+        }
+        diagonalPoints =0;
+        int j = 2;
+        for(int i = 0 ; i < this.grid.length ; i++){
+
+            if(this.grid[i][j].equals(itemToSearch)){
+                diagonalPoints++;
+                System.out.println(diagonalPoints);
+            }
+            j--;
+        }
+        if (diagonalPoints == 3){
+            return true;
+        }
+
         return false;
     }
 

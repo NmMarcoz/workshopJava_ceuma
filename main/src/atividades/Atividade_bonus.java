@@ -6,8 +6,7 @@ import java.util.Scanner;
 public class Atividade_bonus {
     public static void main(String[] args) {
         Scanner dados = new Scanner(System.in);
-        Scanner scanJogadas = new Scanner(System.in);
-        Scanner optionsScanner = new Scanner(System.in);
+
         String choice, name;
         Jogador jogador_1 = new Jogador();
         Jogador jogador_2 = new Jogador();
@@ -25,7 +24,7 @@ public class Atividade_bonus {
         if (choice.equals("x")) {
             jogador_1.setType("x");
             jogador_2.setType("o");
-        } else if (choice.equals("o")) {
+        } else {
             jogador_1.setType("o");
             jogador_2.setType("x");
         }
@@ -55,7 +54,17 @@ public class Atividade_bonus {
             System.out.println("Digite a coordenada da sua jogada");
             jogo.showGrid();
             jogada[0] = dados.nextInt();
+
+            while(jogada[0] < 1 || jogada[0] > 3){
+                System.out.println("Número inválido! Digite novamente");
+                jogada[0] = dados.nextInt();
+            }
             jogada[1] = dados.nextInt();
+            while(jogada[1] < 1 || jogada[1] > 3){
+                System.out.println("Número inválido! Digite novamente");
+                jogada[1] = dados.nextInt();
+            }
+
             while (jogo.hasItems(jogada)) {
                 System.out.println("Ja foi feito uma jogada nessa coordenada, selecione outra!");
                 jogada[0] = dados.nextInt();
@@ -66,13 +75,14 @@ public class Atividade_bonus {
             } else {
                 jogo.setGrid(jogada, jogador_2);
             }
-
-            if (jogo.iterateGrid()) {
+            jogo.iterateGrid(playerTurn);
+            if (jogo.iterateGrid(playerTurn)) {
                 jogo.resetGrid();
-                playerTurn = 1;
+
                 System.out.println("GANHOU!!!!");
                 jogo.setPontos(10, playerTurn);
                 jogo.getJogadores()[playerTurn - 1].console();
+                playerTurn = 2;
                 System.out.println("Deseja continuar jogar outra partida? 1(sim) ou 0(nao)");
                 op = dados.nextInt();
                 while (op < 0 || op > 1) {
@@ -84,6 +94,7 @@ public class Atividade_bonus {
             playerTurn = playerTurn == 1 ? 2 : 1;
         }
         jogo.score();
+        dados.close();
 
     }
 }
